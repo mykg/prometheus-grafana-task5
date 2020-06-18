@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: graf-deploy
+        labels:
+                env: production
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        env: production
+        template:
+                metadata:
+                        name: graf-pod
+                        labels:
+                                env: production
+                spec:
+                        containers:
+                                - name: graf-con
+                                  image: mykgod/grafana
+                                  volumeMounts:
+                                  - name: graf-persistent-storage
+                                    mountPath: /grafana-7.0.3/data 
+                                  ports:
+                                  - containerPort: 3000
+                                    name: graf-pod
+                        volumes:
+                                - name: graf-persistent-storage
+                                  persistentVolumeClaim:
+                                          claimName: graf-pvc

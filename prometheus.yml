@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+      name: prom-deploy
+      labels:
+              env: production
+spec:
+      replicas: 1
+      selector:
+           matchLabels:
+                  env: production
+      template:
+           metadata:
+                  name: prom-pod
+                  labels:
+                       env: production
+           spec:
+                  containers:
+                       - name: prom-con
+                         image: mykgod/prometheus
+                         volumeMounts:
+                         - name: prom-persistent-storage
+                           mountPath: "/prometheus-2.19.0.linux-amd64/data/"
+                         ports:
+                         - containerPort: 9090
+                           name: prom-pod
+                  volumes:
+                         - name: prom-persistent-storage
+                           persistentVolumeClaim:
+                                   claimName: prom-pvc

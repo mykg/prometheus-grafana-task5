@@ -1,0 +1,7 @@
+FROM centos:8
+RUN yum install wget -y
+RUN wget https://github.com/prometheus/prometheus/releases/download/v2.19.0/prometheus-2.19.0.linux-amd64.tar.gz
+RUN tar -xvf prometheus-2.19.0.linux-amd64.tar.gz
+WORKDIR prometheus-2.19.0.linux-amd64/
+EXPOSE 9090
+CMD ./prometheus
